@@ -1,4 +1,4 @@
-# laravel-design-practice
-laravel设计模式练习
+# laravel设计模式练习
 
-1. 依赖注入
+### 目录:
+1. [依赖注入](src/DependencyInjection.php)
