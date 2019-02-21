@@ -26,7 +26,7 @@ class DatabaseLog implements Log {
 class User {
     protected $log;
 
-    public function __construct(Log $log) {
+    public function __construct(DatabaseLog $log) {
         $this->log = $log;
     }
 
@@ -36,5 +36,26 @@ class User {
     }
 }
 
-$user = new User(new DatabaseLog());
+function make($concrete) {
+    $reflector      = new ReflectionClass($concrete);
+    $constructor    = $reflector->getConstructor();
+    if(is_null($constructor)) {
+        return $reflector->newInstance();
+    } else {
+        $parameters = $constructor->getParameters();
+        $dependencies = getDependencies($parameters);
+        return $reflector->newInstanceArgs($dependencies);
+    }
+}
+
+function getDependencies($parameters) {
+    $dependencies = [];
+    foreach($parameters as $parameter) {
+        $dependencies[] = make($parameter->getClass()->name);
+    }
+
+    return $dependencies;
+}
+
+$user = make(User::class);
 $user->login();
