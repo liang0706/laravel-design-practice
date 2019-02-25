@@ -24,15 +24,18 @@ class DatabaseLog implements Log {
 
 //用户
 class User {
-    protected $log;
+    protected $flog;
+    protected $dlog;
 
-    public function __construct(DatabaseLog $log) {
-        $this->log = $log;
+    public function __construct(FileLog $flog, DatabaseLog $dlog) {
+        $this->flog = $flog;
+        $this->dlog = $dlog;
     }
 
     public function login() {
         echo 'login success ...' . PHP_EOL;
-        $this->log->write();
+        $this->flog->write();
+        $this->dlog->write();
     }
 }
 
