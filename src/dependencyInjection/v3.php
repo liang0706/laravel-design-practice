@@ -43,9 +43,12 @@ function make($concrete) {
     $reflector      = new ReflectionClass($concrete);
     $constructor    = $reflector->getConstructor();
     if(is_null($constructor)) {
+        //没有构造函数,直接返回实例化对象
         return $reflector->newInstance();
     } else {
+        //获取构造函数的参数
         $parameters = $constructor->getParameters();
+        //获取依赖的对象
         $dependencies = getDependencies($parameters);
         return $reflector->newInstanceArgs($dependencies);
     }

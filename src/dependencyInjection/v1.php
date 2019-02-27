@@ -27,7 +27,7 @@ class User {
     protected $log;
 
     public function __construct() {
-        $this->log = new DatabaseLog();
+        $this->log = new FileLog();
     }
 
     public function login() {
